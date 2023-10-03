@@ -9,7 +9,8 @@ appBarTheme: AppBarTheme(
         fontSize: 22,
     ),
   backgroundColor: AppColors.primary,
-),
+
+elevation: 0.0),
     primaryColor: AppColors.primary,
     scaffoldBackgroundColor: AppColors.accent,
 );

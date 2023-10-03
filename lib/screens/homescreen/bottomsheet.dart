@@ -1,10 +1,15 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:todo/screens/widgets/textfield.dart';
 import 'package:todo/utill/apptheme.dart';
 
-class bottomsheet extends StatelessWidget {
-  const bottomsheet({super.key});
+class bottomsheet extends StatefulWidget {
+  @override
+  State<bottomsheet> createState() => _bottomsheetState();
+}
+
+class _bottomsheetState extends State<bottomsheet> {
+  DateTime today = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,10 +39,20 @@ class bottomsheet extends StatelessWidget {
             style: AppTheme.todotextstyle.copyWith(color: Colors.black),
             textAlign: TextAlign.center,
           ),
-          Text("26/9/2023",
+          TextButton(onPressed: (){
+           showDatePicker(context: context, initialDate: DateTime.now(),
+               firstDate: today,
+               lastDate: DateTime(2025, 12, 31)
+           ).then((value) {
+             setState(() {
+               today = value! ;
+             });
+           },);
+
+              }, child: Text( "${today.day} / ${today.month} / ${today.year}",
               textAlign: TextAlign.center,
               style: AppTheme.todotextstyle
-                  .copyWith(color: Colors.black, fontWeight: FontWeight.w500)),
+                  .copyWith(color: Colors.black, fontWeight: FontWeight.w500))),
           SizedBox(
             height: 10,
           ),

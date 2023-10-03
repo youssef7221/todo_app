@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:todo/screens/homescreen/addlist.dart';
 import 'package:todo/screens/homescreen/bottomsheet.dart';
+import 'package:todo/screens/homescreen/chooseday.dart';
+import 'package:todo/screens/settings/settings.dart';
 import 'package:todo/screens/tasksDm.dart';
-import 'package:todo/utill/appcolors.dart';
-import 'package:todo/utill/apptheme.dart';
+import 'package:todo/screens/widgets/bottomnav.dart';
+import 'package:todo/screens/widgets/fab.dart';
+
+import '../todo.dart';
+
 List<TasksDm> tasks = [
   TasksDm(todo: "Play BasketBall", Description: "Playing"),
   TasksDm(todo: "Play BasketBall", Description: "Playing"),
@@ -13,8 +18,10 @@ List<TasksDm> tasks = [
   TasksDm(todo: "Play BasketBall", Description: "Playing"),
   TasksDm(todo: "Play BasketBall", Description: "Playing"),
   TasksDm(todo: "Play BasketBall", Description: "Playing"),
-
-
+];
+List<Widget> taps = [
+  todo(),
+  settings()
 ];
 class home extends StatefulWidget {
   static String route = "home";
@@ -23,47 +30,40 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
+  int index = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(),
+      body: taps[index],
       bottomNavigationBar: buildButtonNav(),
-      floatingActionButton: BuildFab(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: addlist(),
+        floatingActionButton: BuildFab(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
-  Widget BuildFab() => FloatingActionButton(onPressed: (){
-    showModalBottomSheet(context: context,
-        isScrollControlled: true,
-      builder: (context) {
-      return Padding(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: bottomsheet(),
+
+  Widget buildButtonNav() =>
+      BottomAppBar(
+        notchMargin: 5,
+        shape: CircularNotchedRectangle(),
+        clipBehavior: Clip.hardEdge,
+        child: BottomNavigationBar(
+          currentIndex: index,
+          onTap: (value) {
+            index = value;
+            setState(() {
+
+            });
+          },
+          items: [
+            BottomNavigationBarItem(
+                icon: ImageIcon(AssetImage("assets/images/icon_list.png")),
+                label: ""),
+            BottomNavigationBarItem(
+                icon: ImageIcon(AssetImage("assets/images/icon_settings.png")),
+                label: "")
+          ],
+        ),
       );
-    },);
-  },child: Icon(Icons.add), shape:const StadiumBorder(side: BorderSide(color: Colors.white, width: 4)
-    ),
-  );
 
-  Widget buildButtonNav() => BottomAppBar(
-    notchMargin: 5,
-    shape: CircularNotchedRectangle(),
-    clipBehavior: Clip.hardEdge,
-    child: BottomNavigationBar(
-    items: [
-    BottomNavigationBarItem(icon: ImageIcon(AssetImage("assets/images/icon_list.png")),label: ""),
-    BottomNavigationBarItem(icon: ImageIcon(AssetImage("assets/images/icon_settings.png")),label: "")
-    ],
-
-    ),
-  );
-
-  PreferredSizeWidget buildAppBar() => AppBar(
-    title: Padding(
-      padding: EdgeInsets.only(left: 20),
-      child: Text("To Do List"),
-    ),
-    toolbarHeight: 157,
-  );
 }

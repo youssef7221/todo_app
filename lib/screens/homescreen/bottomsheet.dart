@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:todo/screens/widgets/textfield.dart';
+import 'package:todo/firebase/firebasefunctions.dart';
+import 'package:todo/screens/models/tasksDm.dart';
 import 'package:todo/utill/apptheme.dart';
-
+import 'package:firebase_core/firebase_core.dart';
 class bottomsheet extends StatefulWidget {
   @override
   State<bottomsheet> createState() => _bottomsheetState();
 }
-
+TextEditingController titleTextEditingController = TextEditingController();
+TextEditingController descriptionTextEditingController = TextEditingController();
 class _bottomsheetState extends State<bottomsheet> {
   DateTime today = DateTime.now();
 
@@ -24,12 +26,28 @@ class _bottomsheetState extends State<bottomsheet> {
                 textAlign: TextAlign.center,
                 style: AppTheme.todotextstyle.copyWith(color: Colors.black),
               )),
-          textfield(hint: "Enter Task"),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 15),
+            child: TextFormField(
+              controller: titleTextEditingController,
+              decoration: InputDecoration(
+                hintText: "Enter title",
+              ),
+              textInputAction: TextInputAction.next,
+            ),
+          ),
           SizedBox(
             height: 10,
           ),
-          textfield(
-            hint: "Enter description",
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 15),
+            child: TextFormField(
+              controller:descriptionTextEditingController,
+              decoration: InputDecoration(
+                hintText: "Enter Description",
+              ),
+              textInputAction: TextInputAction.next,
+            ),
           ),
           SizedBox(
             height: 10,
@@ -39,29 +57,43 @@ class _bottomsheetState extends State<bottomsheet> {
             style: AppTheme.todotextstyle.copyWith(color: Colors.black),
             textAlign: TextAlign.center,
           ),
-          TextButton(onPressed: (){
-           showDatePicker(context: context, initialDate: DateTime.now(),
-               firstDate: today,
-               lastDate: DateTime(2025, 12, 31)
-           ).then((value) {
-             setState(() {
-               today = value! ;
-             });
-           },);
-
-              }, child: Text( "${today.day} / ${today.month} / ${today.year}",
-              textAlign: TextAlign.center,
-              style: AppTheme.todotextstyle
-                  .copyWith(color: Colors.black, fontWeight: FontWeight.w500))),
+          TextButton(
+              onPressed: () {
+                showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: today,
+                        lastDate: DateTime(2025, 12, 31))
+                    .then(
+                  (value) {
+                    setState((){
+                      today = value!;
+                    });
+                  },
+                );
+              },
+              child: Text("${today.day} / ${today.month} / ${today.year}",
+                  textAlign: TextAlign.center,
+                  style: AppTheme.todotextstyle.copyWith(
+                      color: Colors.black, fontWeight: FontWeight.w500))),
           SizedBox(
             height: 10,
           ),
           Spacer(),
           Padding(
             padding: const EdgeInsets.all(10),
-            child: ElevatedButton(onPressed: () {
-
-            }, child: Text("ADD")),
+            child:
+                ElevatedButton(onPressed: () {
+                  TasksDm tasks = TasksDm(title: titleTextEditingController.text,
+                      description: descriptionTextEditingController.text,
+                      date: DateUtils.dateOnly(today).microsecondsSinceEpoch);
+                  FirebaseFunctions.addtask(tasks).then((value) {
+                    Navigator.pop(context);
+                  }
+                  );
+                  titleTextEditingController.clear();
+                  descriptionTextEditingController.clear();
+                }, child: const Text("Add Task")),
           )
         ],
       ),

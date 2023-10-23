@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:todo/firebase/firebasefunctions.dart';
-import 'package:todo/screens/homescreen/bottomsheet.dart';
+import 'package:todo/screens/homescreen/todo_tap/bottomsheet.dart';
 import 'package:todo/screens/models/tasksDm.dart';
 
-import '../../utill/apptheme.dart';
+import '../../../utill/apptheme.dart';
 
 class EditTask extends StatefulWidget {
   static String route = "Edit";

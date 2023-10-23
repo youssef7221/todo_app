@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:todo/screens/homescreen/bottomsheet.dart';
+import 'package:todo/screens/homescreen/todo_tap/bottomsheet.dart';
 import 'package:todo/screens/settings/settings.dart';
 import 'package:todo/screens/models/tasksDm.dart';
 import 'package:todo/screens/widgets/bottomnav.dart';
 import 'package:todo/screens/widgets/fab.dart';
 
-import 'todo.dart';
+import 'todo_tap/todo.dart';
 
 List<Widget> taps = [TodoTap(), settings()];
 

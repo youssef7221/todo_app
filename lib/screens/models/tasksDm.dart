@@ -4,12 +4,14 @@ class TasksDm {
   String id;
   int date;
   bool isDone;
+  String uid;
   TasksDm(
       {required this.title,
       required this.description,
       required this.date,
       this.id = "",
-      this.isDone = false});
+      this.isDone = false,
+      required this.uid});
 
   TasksDm.fromjson(Map<String , dynamic> json) : this (
     date: json['date'],
@@ -17,6 +19,7 @@ class TasksDm {
     title: json['title'],
     description: json['description'],
     isDone: json['isDone'],
+    uid: json['uid'],
   );
   Map<String , dynamic>tojson(){
     return {
@@ -24,7 +27,8 @@ class TasksDm {
       'description' : description,
       'date' : date,
       'id' : id,
-      'isDone' : isDone
+      'isDone' : isDone,
+      'uid' : uid
     };
 }
 }

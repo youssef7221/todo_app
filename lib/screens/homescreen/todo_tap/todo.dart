@@ -1,13 +1,15 @@
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:todo/screens/homescreen/edit_task.dart';
+import 'package:todo/screens/homescreen/edit_screen/edit_task.dart';
+import 'package:todo/screens/login_screen/login_screen.dart';
 
-import '../../firebase/firebasefunctions.dart';
-import '../../utill/appcolors.dart';
-import '../../utill/apptheme.dart';
-import '../models/tasksDm.dart';
+import '../../../firebase/firebasefunctions.dart';
+import '../../../utill/appcolors.dart';
+import '../../../utill/apptheme.dart';
+import '../../models/tasksDm.dart';
 
 class TodoTap extends StatefulWidget {
   @override
@@ -164,11 +166,20 @@ class _TodoTapState extends State<TodoTap> {
           ],
         ));
   }
+  PreferredSizeWidget buildAppBar() => AppBar(
+    title: Padding(
+      padding: EdgeInsets.only(left: 20),
+      child: Text("To Do List"),
+    ),
+    actions: [
+      InkWell(
+          onTap: () async{
+            Navigator.popAndPushNamed(context, LoginScreen.route);
+            return await FirebaseAuth.instance.signOut();
+          },
+          child: Icon(Icons.logout))
+    ],
+  );
 }
 
-PreferredSizeWidget buildAppBar() => AppBar(
-      title: Padding(
-        padding: EdgeInsets.only(left: 20),
-        child: Text("To Do List"),
-      ),
-    );
+

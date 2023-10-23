@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todo/firebase/firebasefunctions.dart';
 import 'package:todo/screens/models/tasksDm.dart';
 import 'package:todo/utill/apptheme.dart';
-import 'package:firebase_core/firebase_core.dart';
 class bottomsheet extends StatefulWidget {
+  const bottomsheet({super.key});
+
   @override
   State<bottomsheet> createState() => _bottomsheetState();
 }
@@ -85,6 +87,7 @@ class _bottomsheetState extends State<bottomsheet> {
             child:
                 ElevatedButton(onPressed: () {
                   TasksDm tasks = TasksDm(title: titleTextEditingController.text,
+                      uid: FirebaseAuth.instance.currentUser!.uid,
                       description: descriptionTextEditingController.text,
                       date: DateUtils.dateOnly(today).microsecondsSinceEpoch);
                   FirebaseFunctions.addtask(tasks).then((value) {

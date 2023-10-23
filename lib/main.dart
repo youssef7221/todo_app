@@ -1,7 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:todo/screens/homescreen/edit_task.dart';
+import 'package:todo/screens/homescreen/edit_screen/edit_task.dart';
 import 'package:todo/screens/homescreen/homescreen.dart';
+import 'package:todo/screens/login_screen/login_screen.dart';
 import 'package:todo/screens/provider/settings_provider.dart';
 import 'package:todo/screens/settings/settings.dart';
 import 'package:todo/screens/splash.dart';
@@ -26,8 +27,10 @@ late settingsprovider provider ;
     provider = Provider.of(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: home.route,
+      initialRoute: provider.firebaseUser != null ? home.route : LoginScreen.route
+        ,
   routes: {
+        LoginScreen.route : (context) => LoginScreen(),
     home.route : (context) => home(),
     splash.route : (context) => const splash(),
     settings.route : (context) => settings(),
